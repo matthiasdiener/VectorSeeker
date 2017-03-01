@@ -10,8 +10,8 @@ VOID handleBaseInstBB(const instructionLocationsData &ins, ShadowMemoryNoCache &
 VOID handleBaseInstBB(const instructionLocationsData &ins, ShadowMemory &shadowMemory, ShadowRegisters &registers, unordered_map<ADDRINT, ResultVector > &instructionResults, FILE *out)
 #endif
 {
-	++instructionCount;
-		
+	__sync_add_and_fetch(&instructionCount, 1);
+
 	long value = 0;
 	for(auto reg : ins.registers_read)
 	{

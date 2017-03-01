@@ -47,7 +47,7 @@ END_LEGAL */
 #include <stdio.h>
 #include <assert.h>
 #include <climits>
-#include <atomic>
+// #include <atomic>
 
 
 #define STATIC_CAST(x,y) ((x) (y))
@@ -70,14 +70,16 @@ END_LEGAL */
 // Shared Globals
 
 // Status Variables
-atomic<bool> inMain;
-atomic<bool> inAlloc;
+// atomic<bool> inMain;
+bool inMain;
+// atomic<bool> inAlloc;
+bool inAlloc; //unused?
 unsigned tracingLevel;
 int traceRegionCount;
 PIN_RWMUTEX traclingLevelLock; // Protects both tracingLevel and traceRegion Count
 
 // Execution Dtata variables
-atomic<unsigned> instructionCount;
+unsigned instructionCount;
 unsigned vectorInstructionCountSavings;
 
 // Shadow Memory threadsafe if THREADSAFE defined in build of shadow.o
@@ -236,8 +238,9 @@ VOID recoredBaseInst(VOID *ip, THREADID threadid)
     #endif
 
 
-	instructionCount++;
-		
+	// instructionCount++;
+	__sync_add_and_fetch(&instructionCount, 1);
+
 	long value = 0;
 	auto ciItr = constInstructionLocations.find((ADDRINT)ip);
 	assert(ciItr != constInstructionLocations.end());
@@ -339,8 +342,8 @@ VOID RecordMemReadWrite(VOID * ip, VOID * addr1, UINT32 t1, VOID *addr2, UINT32 
 		return;
 	}
 
-	instructionCount++;
-	
+	__sync_add_and_fetch(&instructionCount, 1);
+
 	long value = 0;
 	
 	auto ciItr = constInstructionLocations.find((ADDRINT)ip);
