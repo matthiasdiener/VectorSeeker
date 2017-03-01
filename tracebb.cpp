@@ -17,7 +17,7 @@ VOID handleBaseInstBB(const instructionLocationsData &ins, ShadowMemory &shadowM
 	{
 		value = max(registers.readReg(reg),value);
 	}
-	
+
 	if(value > 0 && (ins.type != MOVEONLY_INS_TYPE))
 	{
 		value = value + 1;
@@ -27,12 +27,12 @@ VOID handleBaseInstBB(const instructionLocationsData &ins, ShadowMemory &shadowM
 	{
 		registers.writeReg(reg, value);
 	}
-	
+
 	if(value > 0 && (!((ins.type == MOVEONLY_INS_TYPE) && KnobSkipMove)))
 	{
 		instructionResults[ins.ip].addToDepth(value);
 	}
-	
+
 	if(KnobDebugTrace)
 		instructionTracing((VOID *)ins.ip,NULL,value,"Base",out,shadowMemory, registers);
 }
@@ -53,7 +53,7 @@ VOID handleMemInstBB(const instructionLocationsData &ins, const pair<ADDRINT,UIN
 
 
 	long value = 0;
-	
+
 	if(type1 & READ_OPERATOR_TYPE)
 	{
 		value = shadowMemory.readMem((ADDRINT)addr1, ins.memReadSize);
@@ -68,7 +68,7 @@ VOID handleMemInstBB(const instructionLocationsData &ins, const pair<ADDRINT,UIN
 	{
 		value = max(registers.readReg(ins.registers_read[i]),value);
 	}
-		
+
 	if(value > 0 && (ins.type != MOVEONLY_INS_TYPE))
 	{
 		value = value +1;
@@ -78,7 +78,7 @@ VOID handleMemInstBB(const instructionLocationsData &ins, const pair<ADDRINT,UIN
 	{
 		registers.writeReg(ins.registers_written[i], value);
 	}
-	
+
 	long region1 = 0;
 	long region2 = 0;
 	if(type1 & WRITE_OPERATOR_TYPE)
@@ -171,7 +171,7 @@ VOID BBData::execute(ExecutionContex &contexts, ShadowMemory &shadowMemory, Shad
 
 	if(KnobDebugTrace)
 	{
-		fprintf(out, "Executing Block %p with %d instructions expected %d\n", (void *) instructions.front().ip, (int) instructions.size(), expected_num_ins);
+		fprintf(out, "Executing Block %p with %d instructions expected %lu\n", (void *) instructions.front().ip, (int) instructions.size(), expected_num_ins);
 	}
 
 	for(size_t i = 0; i < instructions.size(); i++)
@@ -202,7 +202,7 @@ VOID BBData::execute(ExecutionContex &contexts, ShadowMemory &shadowMemory, Shad
 
 			if(contexts.pred[memOpsCount/2])
 				handleMemInstBB(instructions[i], contexts.addrs[memOpsCount], contexts.addrs[memOpsCount+1], shadowMemory, registers, instructionResults, out);
-	
+
 			memOpsCount += 2;
 		}
 		else
@@ -255,11 +255,11 @@ void BBData::swap(BBData &s)
 	set<ADDRINT>tmp_suc = s.successors;
 	s.successors = successors;
 	successors = tmp_suc;
-	
+
 	UINT32 tmp_count = s.execution_count;
 	s.execution_count = execution_count;
 	execution_count = tmp_count;
-	
+
 	USIZE tmp_expect = s.expected_num_ins;
 	s.expected_num_ins = expected_num_ins;
 	expected_num_ins = tmp_expect;

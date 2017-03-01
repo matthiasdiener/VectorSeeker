@@ -25,8 +25,8 @@ public:
 	ResultVector(){execution_count=0; index=0;};
 	void addToDepth(long depth);
 	long readDepthCount(long depth);
-	const bool isSingle();
-	const bool isZero();
+	bool isSingle();
+	bool isZero();
 	void sortedVectors(vector<pair<long,long> > &sorted_vectors);
 	bool vectorsGreater(int minVector);
 	void clear();

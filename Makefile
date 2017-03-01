@@ -91,5 +91,5 @@ rundeepbbloops: tracer.so deeploops
 	$(PIN_ROOT)/pin -t $(OBJDIR)/tracer.so -o deeploops.log -bb -- ./deeploops
 
 clean:
-	rm -f *.o *.so mintest mintest.log deeploops deeploops.log deeploops-sol deeploops-sol.log mintest-nodebug
+	rm -rf $(OBJDIR) *.o *.so mintest mintest.log deeploops deeploops.log deeploops-sol deeploops-sol.log mintest-nodebug
 

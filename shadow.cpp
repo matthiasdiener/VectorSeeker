@@ -199,13 +199,13 @@ long ShadowMemory::readMem(ADDRINT address)
 	auto itr = cacheShadowMemory[region].find(address/cacheLineSize);
 	if(itr != cacheShadowMemory[region].end())
 	{
-	    value = itr->second.read(address%cacheLineSize);		
+	    value = itr->second.read(address%cacheLineSize);
 	}
 	#ifdef THREADSAFE
     PIN_RWMutexUnlock(&regionLock[region]);
     #endif
 	return value;
-};
+}
 
 long ShadowMemory::readMem(ADDRINT address, USIZE width)
 {
@@ -219,14 +219,14 @@ long ShadowMemory::readMem(ADDRINT address, USIZE width)
 		auto itr = cacheShadowMemory[region].find(address/cacheLineSize);
 		if(itr != cacheShadowMemory[region].end())
 		{
-		    value = max(itr->second.read((address+i)%cacheLineSize),value);		
+		    value = max(itr->second.read((address+i)%cacheLineSize),value);
 		}
 		#ifdef THREADSAFE
 	    PIN_RWMutexUnlock(&regionLock[region]);
 	    #endif
 		}
 	return value;
-};
+}
 
 //Set Memory
 void ShadowMemory::writeMem(ADDRINT address, long depth)
@@ -255,7 +255,7 @@ void ShadowMemory::writeMem(ADDRINT address, long depth)
 	    PIN_RWMutexUnlock(&regionLock[region]);
 	    #endif
 	}
-};
+}
 
 void ShadowMemory::writeMem(ADDRINT address, long depth, USIZE width)
 {
@@ -287,12 +287,12 @@ void ShadowMemory::writeMem(ADDRINT address, long depth, USIZE width)
 		}
 		address += 1;
 	}
-};
+}
 
 void ShadowMemory::writeMemUnlocked(ADDRINT address, long depth)
 {
 	int region = getRegion(address);
-	cacheShadowMemory[region][address/cacheLineSize].write(address%cacheLineSize, depth);	
+	cacheShadowMemory[region][address/cacheLineSize].write(address%cacheLineSize, depth);
 }
 
 //Clear
@@ -325,7 +325,7 @@ void ShadowMemory::clear()
 	}
     PIN_RWMutexUnlock(&allocationLock);
     #endif
-};
+}
 
 void ShadowMemory::arrayMem(ADDRINT start, size_t size, bool tracinglevel)
 {
@@ -340,7 +340,7 @@ void ShadowMemory::arrayMem(ADDRINT start, size_t size, bool tracinglevel)
 	{
 		allocationMap[start] = size;
 	}
-	
+
 	if(tracinglevel)
 	{
 		for(size_t i = 0; i < size; i++)
@@ -367,7 +367,7 @@ void ShadowMemory::arrayMemClear(ADDRINT start)
 	#endif
 	for(size_t i = 0; i < allocationMap[start]; i++)
 		this->writeMemUnlocked(start+i, 0);
-	
+
 	allocationMap.erase(start);
 	#ifdef THREADSAFE
 	for(int i = 0; i < regionsNum; i++)
@@ -452,12 +452,12 @@ void ShadowMemory::swap(ShadowMemory &s)
 long ShadowRegisters::readReg(size_t reg)
 {
 	long value = shadowRegisters[reg];
-	return value;	
-};
+	return value;
+}
 
 //Set Register
 void ShadowRegisters::writeReg(size_t reg, long depth)
 {
 	shadowRegisters[reg] = depth;
-};
+}
 
