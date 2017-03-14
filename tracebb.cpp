@@ -4,7 +4,7 @@
 
 #include "assert.h"
 
-#ifdef NOSHAODWCACHE
+#ifdef NOSHADOWCACHE
 VOID handleBaseInstBB(const instructionLocationsData &ins, ShadowMemoryNoCache &shadowMemory, ShadowRegisters &registers, unordered_map<ADDRINT, ResultVector > &instructionResults, FILE *out)
 #else
 VOID handleBaseInstBB(const instructionLocationsData &ins, ShadowMemory &shadowMemory, ShadowRegisters &registers, unordered_map<ADDRINT, ResultVector > &instructionResults, FILE *out)
@@ -37,7 +37,7 @@ VOID handleBaseInstBB(const instructionLocationsData &ins, ShadowMemory &shadowM
 		instructionTracing((VOID *)ins.ip,NULL,value,"Base",out,shadowMemory, registers);
 }
 
-#ifdef NOSHAODWCACHE
+#ifdef NOSHADOWCACHE
 VOID handleMemInstBB(const instructionLocationsData &ins, const pair<ADDRINT,UINT32>&one, const pair<ADDRINT,UINT32>&two, ShadowMemoryNoCache &shadowMemory, ShadowRegisters &registers, unordered_map<ADDRINT, ResultVector > &instructionResults, FILE *out)
 #else
 VOID handleMemInstBB(const instructionLocationsData &ins, const pair<ADDRINT,UINT32>&one, const pair<ADDRINT,UINT32>&two, ShadowMemory &shadowMemory, ShadowRegisters &registers, unordered_map<ADDRINT, ResultVector > &instructionResults, FILE *out)
@@ -155,7 +155,7 @@ void printAddrs(const vector<pair<ADDRINT,UINT32> > &addrs, FILE *out)
 	fprintf(out, "\n");
 }
 
-#ifdef NOSHAODWCACHE
+#ifdef NOSHADOWCACHE
 VOID BBData::execute(ExecutionContex &contexts, ShadowMemoryNoCache &shadowMemory, ShadowRegisters registers, unordered_map<ADDRINT, ResultVector > &instructionResults, FILE *out)
 #else
 VOID BBData::execute(ExecutionContex &contexts, ShadowMemory &shadowMemory, ShadowRegisters &registers, unordered_map<ADDRINT, ResultVector > &instructionResults, FILE *out)

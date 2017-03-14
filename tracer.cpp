@@ -83,7 +83,7 @@ unsigned instructionCount;
 unsigned vectorInstructionCountSavings;
 
 // Shadow Memory threadsafe if THREADSAFE defined in build of shadow.o
-#ifdef NOSHAODWCACHE
+#ifdef NOSHADOWCACHE
 ShadowMemoryNoCache shadowMemory;
 #else
 ShadowMemory shadowMemory;

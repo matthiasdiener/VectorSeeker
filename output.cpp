@@ -59,7 +59,7 @@ VOID writeLog(FILE * trace, unordered_map<ADDRINT, ResultVector > &instructionRe
 
 	if(!KnobForFrontend)
 	{
-		#ifdef NOSHAODWCACHE
+		#ifdef NOSHADOWCACHE
 		fprintf(trace, "#start instruction log NO SHADOWCACHE\b");
 		#else
 		fprintf(trace, "#start instruction log\n");

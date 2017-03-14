@@ -37,7 +37,7 @@ public:
 	void swap(BBData &s);
 	VOID pushInstruction(const instructionLocationsData *ins);
 	VOID printBlock(FILE *out);
-#ifdef NOSHAODWCACHE
+#ifdef NOSHADOWCACHE
 	VOID execute(ExecutionContex &contexts, ShadowMemoryNoCache &shadowMemory, ShadowRegisters &registers, unordered_map<ADDRINT, ResultVector > &instructionResults, FILE *out);
 #else
 	VOID execute(ExecutionContex &contexts, ShadowMemory &shadowMemory, ShadowRegisters &registers, unordered_map<ADDRINT, ResultVector > &instructionResults, FILE *out);
