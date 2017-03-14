@@ -5,3 +5,5 @@ deeploops
 mintest
 mintest-nodebug
 Test
+.pin_root
+a.out

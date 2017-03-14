@@ -1,8 +1,27 @@
 # PIN_ROOT must point to the Pin kit root.
 
-override PIN_ROOT = /home/mdiener/pin
+# Specify Pin path manually:
+# override PIN_ROOT = /path/to/pin
 
 # Do not edit below this line
+
+# Try to detect Pin installation directory in user's /home and /opt
+ifeq ($(PIN_ROOT), )
+  override PIN_ROOT = $(shell cat .pin_root 2>/dev/null)
+  ifeq ($(PIN_ROOT), )
+    override PIN_ROOT = $(shell dirname $$(find ~ /opt -type f -name pin -path '*/*pin' -print -quit))
+  endif
+  ifeq ($(PIN_ROOT), )
+    $(error Could not detect Pin installation directory, please specify PIN_ROOT manually in the Makefile)
+  endif
+endif
+
+ifeq ($(MAKECMDGOALS), )
+  $(info =======================================)
+  $(info PIN_ROOT is ${PIN_ROOT})
+  $(info =======================================)
+  $(shell echo ${PIN_ROOT} > .pin_root)
+endif
 
 ifdef PIN_ROOT
 CONFIG_ROOT := $(PIN_ROOT)/source/tools/Config
@@ -90,6 +109,6 @@ rundeeploops: tracer.so deeploops
 rundeepbbloops: tracer.so deeploops
 	$(PIN_ROOT)/pin -t $(OBJDIR)/tracer.so -o deeploops.log -bb -- ./deeploops
 
-clean:
-	rm -rf $(OBJDIR) *.o *.so mintest mintest.log deeploops deeploops.log deeploops-sol deeploops-sol.log mintest-nodebug
+# clean:
+# 	rm -rf $(OBJDIR) *.o *.so mintest mintest.log deeploops deeploops.log deeploops-sol deeploops-sol.log mintest-nodebug
 
